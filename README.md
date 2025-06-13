@@ -164,15 +164,30 @@ git push origin main
 
 4. Select your SoulID repository from the list
 
-5. Vercel will automatically detect that it's a Next.js project and configure the build settings
+5. Before deploying, you need to set up the environment:
+   - In your project settings, add the following environment variable:
+     ```
+     DATABASE_URL=file:./prisma/prod.db
+     ```
+   - This tells Prisma to use a SQLite database in the prisma directory
 
 6. Click "Deploy"
 
 Vercel will automatically:
+- Initialize the database
+- Generate the Prisma client
 - Build your Next.js application
 - Deploy it to their global edge network
 - Provide you with a production URL
 - Set up automatic deployments for future pushes to your repository
+
+### Important Notes for Local SQLite Database
+
+Since we're using a local SQLite database:
+1. The database file will be created in the `/prisma` directory
+2. Each deployment will start with a fresh database
+3. Data will not persist between deployments
+4. For production use, consider migrating to a cloud database service
 
 ### Post-Deployment
 
@@ -180,6 +195,7 @@ Vercel will automatically:
    - Check all pages and features
    - Test the application functionality
    - Monitor the deployment logs in Vercel dashboard
+   - Verify database operations are working
 
 2. Set up custom domain (optional):
    - Go to your project settings in Vercel
