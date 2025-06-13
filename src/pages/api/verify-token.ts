@@ -47,13 +47,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
 
-    console.log('Token verified successfully:', tokenId);
-    return res.status(200).json({
+    // Format the response based on token type
+    const baseResponse = {
+      type: token.type,
       title: token.title,
       issuer: token.issuer,
       date: token.date,
       owner: token.profile.name,
       walletAddress: token.profile.walletAddress,
+      description: token.description,
+    };
+
+    // Add type-specific fields
+    let typeSpecificFields = {};
+    switch (token.type) {
+      case 'degree':
+        typeSpecificFields = {
+          degreeName: token.degreeName,
+          fieldOfStudy: token.fieldOfStudy,
+          grade: token.grade,
+        };
+        break;
+      case 'certification':
+        typeSpecificFields = {
+          certificationName: token.certificationName,
+          issuingBody: token.issuingBody,
+          validityPeriod: token.validityPeriod,
+        };
+        break;
+      case 'skill':
+        typeSpecificFields = {
+          skillName: token.skillName,
+          proficiencyLevel: token.proficiencyLevel,
+        };
+        break;
+    }
+
+    console.log('Token verified successfully:', tokenId);
+    return res.status(200).json({
+      ...baseResponse,
+      ...typeSpecificFields,
     });
   } catch (error) {
     console.error('Error verifying token:', error);

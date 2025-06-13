@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
 
@@ -39,7 +40,7 @@ const credentialTypes = [
   }
 ];
 
-export default function Mint() {
+function MintPage() {
   const router = useRouter();
   const { user } = useAuth();
   const [formData, setFormData] = useState({
@@ -60,6 +61,17 @@ export default function Mint() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (isClient && !user) {
+      router.push('/register');
+    }
+  }, [isClient, user, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -129,8 +141,7 @@ export default function Mint() {
     }
   };
 
-  if (!user) {
-    router.push('/register');
+  if (!isClient) {
     return null;
   }
 
@@ -257,4 +268,9 @@ export default function Mint() {
       </div>
     </div>
   );
-} 
+}
+
+// Export the page with dynamic import to ensure client-side rendering
+export default dynamic(() => Promise.resolve(MintPage), {
+  ssr: false
+}); 

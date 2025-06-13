@@ -5,8 +5,19 @@ interface Token {
   id: string;
   title: string;
   issuer: string;
-  date: string;
+  date: Date;
   createdAt: Date;
+  type: string;
+  profileId: string;
+  degreeName?: string | null;
+  fieldOfStudy?: string | null;
+  grade?: string | null;
+  certificationName?: string | null;
+  issuingBody?: string | null;
+  validityPeriod?: string | null;
+  skillName?: string | null;
+  proficiencyLevel?: string | null;
+  description?: string | null;
 }
 
 export default async function handler(
@@ -44,12 +55,22 @@ export default async function handler(
         profileImage: profile.profileImage,
         createdAt: profile.createdAt,
       },
-      tokens: profile.tokens.map((token: Token) => ({
+      tokens: profile.tokens.map((token) => ({
         id: token.id,
         title: token.title,
         issuer: token.issuer,
-        date: token.date,
+        date: token.date.toISOString(),
         createdAt: token.createdAt,
+        type: token.type,
+        degreeName: token.degreeName,
+        fieldOfStudy: token.fieldOfStudy,
+        grade: token.grade,
+        certificationName: token.certificationName,
+        issuingBody: token.issuingBody,
+        validityPeriod: token.validityPeriod,
+        skillName: token.skillName,
+        proficiencyLevel: token.proficiencyLevel,
+        description: token.description,
       })),
     });
   } catch (error) {

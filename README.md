@@ -147,6 +147,46 @@ soulid-ui/
 - `GET /api/suggestion-types` - Get available suggestion types
 - `POST /api/feedback` - Submit feedback on suggestions
 
+## Deployment
+
+### Deploying to Vercel
+
+1. Push your code to GitHub:
+```bash
+git add .
+git commit -m "Ready for deployment"
+git push origin main
+```
+
+2. Go to [vercel.com](https://vercel.com) and sign in with your GitHub account
+
+3. Click "Add New Project"
+
+4. Select your SoulID repository from the list
+
+5. Vercel will automatically detect that it's a Next.js project and configure the build settings
+
+6. Click "Deploy"
+
+Vercel will automatically:
+- Build your Next.js application
+- Deploy it to their global edge network
+- Provide you with a production URL
+- Set up automatic deployments for future pushes to your repository
+
+### Post-Deployment
+
+1. Verify your deployment:
+   - Check all pages and features
+   - Test the application functionality
+   - Monitor the deployment logs in Vercel dashboard
+
+2. Set up custom domain (optional):
+   - Go to your project settings in Vercel
+   - Click "Domains"
+   - Add your custom domain
+   - Follow the DNS configuration instructions
+
 ## Contributing
 
 1. Fork the repository
@@ -161,4 +201,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-For support, email support@soulid.com or join our Discord community.
+For support, email cloudstack6@gmail.com
+

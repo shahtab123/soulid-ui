@@ -44,14 +44,11 @@ export default async function handler(
       return res.status(404).json({ message: 'Profile not found' });
     }
 
-    // Parse date from MM/DD/YYYY format
-    const [month, day, year] = date.split('/').map((num: string) => parseInt(num, 10));
-    const parsedDate = new Date(year, month - 1, day); // month is 0-based in JavaScript Date
-    const isoDate = parsedDate.toISOString();
-
-    console.log('Original date:', date);
-    console.log('Parsed date:', parsedDate);
-    console.log('ISO date:', isoDate);
+    // Parse date from YYYY-MM-DD format
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate.getTime())) {
+      return res.status(400).json({ message: 'Invalid date format' });
+    }
 
     // Create new token with all fields
     const token = await prisma.token.create({
@@ -59,7 +56,7 @@ export default async function handler(
         type,
         title,
         issuer,
-        date: isoDate,
+        date: parsedDate,
         profileId,
         // Additional fields
         degreeName,
