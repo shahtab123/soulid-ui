@@ -68,7 +68,7 @@ SoulID is a decentralized identity platform that allows users to create and mana
 ### Backend
 - Node.js
 - Prisma ORM
-- SQLite Database
+- Neon Database
 - RESTful API
 
 ### Authentication
@@ -83,9 +83,18 @@ SoulID is a decentralized identity platform that allows users to create and mana
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+- GitHub Account
+- Neon Database Account
+
+### Installation
+
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/yourusername/soulid-ui.git
 cd soulid-ui
 ```
 
@@ -94,24 +103,37 @@ cd soulid-ui
 npm install
 ```
 
-3. Set up the database:
+3. Set up environment variables:
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# GitHub OAuth
+GITHUB_ID=your_github_client_id
+GITHUB_SECRET=your_github_client_secret
+
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+
+# Neon Database
+DATABASE_URL="postgresql://user:password@ep-sweet-queen-a8yljdfv-pooler.eastus2.aws.neon.tech/neondb?sslmode=require"
+
+# Vercel (for production)
+VERCEL_URL=your_vercel_url
+```
+
+4. Set up the database:
 ```bash
 npx prisma generate
 npx prisma db push
 ```
 
-4. Configure environment variables:
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-5. Start the development server:
+5. Run the development server:
 ```bash
 npm run dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+The application will be available at `http://localhost:3000`.
 
 ## Project Structure
 
@@ -149,59 +171,23 @@ soulid-ui/
 
 ## Deployment
 
-### Deploying to Vercel
+### Vercel Deployment
 
-1. Push your code to GitHub:
-```bash
-git add .
-git commit -m "Ready for deployment"
-git push origin main
-```
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Add the following environment variables in Vercel:
+   - `GITHUB_ID`
+   - `GITHUB_SECRET`
+   - `NEXTAUTH_SECRET`
+   - `DATABASE_URL`
+   - `NEXTAUTH_URL` (Vercel will set this automatically)
 
-2. Go to [vercel.com](https://vercel.com) and sign in with your GitHub account
+### Neon Database Setup
 
-3. Click "Add New Project"
-
-4. Select your SoulID repository from the list
-
-5. Before deploying, you need to set up the environment:
-   - In your project settings, add the following environment variable:
-     ```
-     DATABASE_URL=file:./prisma/prod.db
-     ```
-   - This tells Prisma to use a SQLite database in the prisma directory
-
-6. Click "Deploy"
-
-Vercel will automatically:
-- Initialize the database
-- Generate the Prisma client
-- Build your Next.js application
-- Deploy it to their global edge network
-- Provide you with a production URL
-- Set up automatic deployments for future pushes to your repository
-
-### Important Notes for Local SQLite Database
-
-Since we're using a local SQLite database:
-1. The database file will be created in the `/prisma` directory
-2. Each deployment will start with a fresh database
-3. Data will not persist between deployments
-4. For production use, consider migrating to a cloud database service
-
-### Post-Deployment
-
-1. Verify your deployment:
-   - Check all pages and features
-   - Test the application functionality
-   - Monitor the deployment logs in Vercel dashboard
-   - Verify database operations are working
-
-2. Set up custom domain (optional):
-   - Go to your project settings in Vercel
-   - Click "Domains"
-   - Add your custom domain
-   - Follow the DNS configuration instructions
+1. Create a new project in Neon
+2. Get your connection string from the Neon dashboard
+3. Add the connection string to your environment variables as `DATABASE_URL`
+4. The database schema will be automatically created when you deploy
 
 ## Contributing
 
