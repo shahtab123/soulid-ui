@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model UserProfile {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  walletAddress String   @unique
+  profileImage  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  tokens        Token[]
+}
+
+model Token {
+  id                String      @id @default(uuid())
+  type              String      // Type of credential (degree, certification, skill)
+  title             String      // Main title of the credential
+  issuer            String      // Organization that issued the credential
+  date              DateTime    // Date when the credential was issued
+  createdAt         DateTime    @default(now())
+  profileId         String      // ID of the user who owns this token
+  profile           UserProfile @relation(fields: [profileId], references: [id])
+
+  // Degree-specific fields
+  degreeName        String?     // Full name of the degree
+  fieldOfStudy      String?     // Major or field of study
+  grade             String?     // Grade or CGPA
+
+  // Certification-specific fields
+  certificationName String?     // Name of the certification
+  issuingBody       String?     // Organization that issued the certification
+  validityPeriod    String?     // How long the certification is valid
+
+  // Skill-specific fields
+  skillName         String?     // Name of the skill
+  proficiencyLevel  String?     // Level of proficiency
+
+  // Common fields
+  description       String?     // Additional details or description
+} 
