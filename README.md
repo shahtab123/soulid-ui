@@ -19,31 +19,12 @@ SoulID is a decentralized identity platform that allows users to create and mana
   - Academic degrees and certifications
   - Professional certifications
   - Skill badges
-  - Work experience
-  - Volunteer work
-  - Language proficiency
-  - Project completion
-  - Research publications
-  - Awards and recognition
-  - Grants and funding
-  - Patents
-  - Professional memberships
 - Verifiable credentials on blockchain
 - Immutable and non-transferable tokens
 - Detailed credential information storage
 
 ### AI-Powered Suggestions
 - Personalized opportunity recommendations
-- Real-time matching with user profile
-- Various opportunity types:
-  - Certification programs
-  - Student programs
-  - Developer resources
-  - Internships
-  - Fellowships
-  - Community programs
-  - Learning resources
-- Match score indicators
 - Direct links to opportunities
 - Detailed opportunity descriptions
 
@@ -111,19 +92,9 @@ npm install
 Create a `.env` file in the root directory with the following variables:
 
 ```env
-# GitHub OAuth
-GITHUB_ID=your_github_client_id
-GITHUB_SECRET=your_github_client_secret
-
-# NextAuth
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your_nextauth_secret
-
 # Neon Database
 DATABASE_URL="postgresql://user:password@ep-sweet-queen-a8yljdfv-pooler.eastus2.aws.neon.tech/neondb?sslmode=require"
 
-# Vercel (for production)
-VERCEL_URL=your_vercel_url
 ```
 
 4. Set up the database:
@@ -173,18 +144,6 @@ soulid-ui/
 - `GET /api/suggestion-types` - Get available suggestion types
 - `POST /api/feedback` - Submit feedback on suggestions
 
-## Deployment
-
-### Vercel Deployment
-
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add the following environment variables in Vercel:
-   - `GITHUB_ID`
-   - `GITHUB_SECRET`
-   - `NEXTAUTH_SECRET`
-   - `DATABASE_URL`
-   - `NEXTAUTH_URL` (Vercel will set this automatically)
 
 ### Neon Database Setup
 
