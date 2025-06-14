@@ -134,6 +134,8 @@ export default function Dashboard() {
   const [profile, setProfile] = useState<any>(null);
   const [tokens, setTokens] = useState<any[]>([]);
   const [suggestions, setSuggestions] = useState<Suggestion[]>(mockSuggestions);
+  const [selectedToken, setSelectedToken] = useState<any>(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -276,7 +278,13 @@ export default function Dashboard() {
                         )}
                         <div className="mt-4 flex items-center justify-between">
                           <span className="text-xs text-gray-400">Token ID: {token.id}</span>
-                          <button className="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                          <button 
+                            onClick={() => {
+                              setSelectedToken(token);
+                              setShowDetailsModal(true);
+                            }}
+                            className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                          >
                             View Details
                           </button>
                         </div>
@@ -387,6 +395,121 @@ export default function Dashboard() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Token Details Modal */}
+      {showDetailsModal && selectedToken && (
+        <div className="fixed z-10 inset-0 overflow-y-auto">
+          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                    <div className="flex justify-between items-start">
+                      <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        {selectedToken.title}
+                      </h3>
+                      <button
+                        onClick={() => setShowDetailsModal(false)}
+                        className="text-gray-400 hover:text-gray-500"
+                      >
+                        <span className="sr-only">Close</span>
+                        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="mt-4 space-y-4">
+                      <div>
+                        <p className="text-sm font-medium text-gray-500">Type</p>
+                        <p className="mt-1 text-sm text-gray-900">
+                          {credentialTypes.find(type => type.id === selectedToken.type)?.icon}{' '}
+                          {credentialTypes.find(type => type.id === selectedToken.type)?.title}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-500">Issued By</p>
+                        <p className="mt-1 text-sm text-gray-900">{selectedToken.issuer}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-500">Date Issued</p>
+                        <p className="mt-1 text-sm text-gray-900">
+                          {new Date(selectedToken.date).toLocaleDateString()}
+                        </p>
+                      </div>
+                      {selectedToken.type === 'degree' && (
+                        <>
+                          <div>
+                            <p className="text-sm font-medium text-gray-500">Degree Name</p>
+                            <p className="mt-1 text-sm text-gray-900">{selectedToken.degreeName}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-500">Field of Study</p>
+                            <p className="mt-1 text-sm text-gray-900">{selectedToken.fieldOfStudy}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-500">Grade</p>
+                            <p className="mt-1 text-sm text-gray-900">{selectedToken.grade}</p>
+                          </div>
+                        </>
+                      )}
+                      {selectedToken.type === 'certification' && (
+                        <>
+                          <div>
+                            <p className="text-sm font-medium text-gray-500">Certification Name</p>
+                            <p className="mt-1 text-sm text-gray-900">{selectedToken.certificationName}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-500">Issuing Body</p>
+                            <p className="mt-1 text-sm text-gray-900">{selectedToken.issuingBody}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-500">Validity Period</p>
+                            <p className="mt-1 text-sm text-gray-900">{selectedToken.validityPeriod}</p>
+                          </div>
+                        </>
+                      )}
+                      {selectedToken.type === 'skill' && (
+                        <>
+                          <div>
+                            <p className="text-sm font-medium text-gray-500">Skill Name</p>
+                            <p className="mt-1 text-sm text-gray-900">{selectedToken.skillName}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-500">Proficiency Level</p>
+                            <p className="mt-1 text-sm text-gray-900">{selectedToken.proficiencyLevel}</p>
+                          </div>
+                        </>
+                      )}
+                      {selectedToken.description && (
+                        <div>
+                          <p className="text-sm font-medium text-gray-500">Description</p>
+                          <p className="mt-1 text-sm text-gray-900">{selectedToken.description}</p>
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-sm font-medium text-gray-500">Token ID</p>
+                        <p className="mt-1 text-sm text-gray-900">{selectedToken.id}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button
+                  type="button"
+                  onClick={() => setShowDetailsModal(false)}
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
