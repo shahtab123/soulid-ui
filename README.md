@@ -2,6 +2,10 @@
 
 SoulID is a decentralized identity platform that allows users to create and manage their digital identity using soulbound tokens. The platform enables users to mint credentials, manage their profile, and receive AI-powered suggestions for opportunities.
 
+## Project Links
+- [Demo Video](https://www.youtube.com/watch?v=h2w9CM2HYJU)
+- [Devpost Submission](https://devpost.com/software/soulid-web3-identity-and-ai-help-for-the-undocumented)
+
 ## Features
 
 ### Identity Management
