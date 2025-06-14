@@ -166,6 +166,17 @@ export default function Home() {
               </div>
             </main>
           </div>
+          <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <div className="h-full flex items-center justify-center p-4 sm:p-6 md:p-8">
+              <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl aspect-[4/3] bg-gray-50 rounded-lg shadow-xl overflow-hidden">
+                <img
+                  className="absolute inset-0 w-full h-full object-contain"
+                  src="/images/assets_task_01jxqtv1pvfmpseqd2rbd0kx03_1749925390_img_0.webp"
+                  alt="Digital Identity on Blockchain"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
